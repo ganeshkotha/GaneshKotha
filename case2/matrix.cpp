@@ -11,7 +11,7 @@ void columnreplace();
 void diagonalreplace();
 //Declaring values globally
 int rowcount,columncount,rowposition,columnposition;
-int main (int argc,char **argv)
+int main (int argc,char *argv[])
 {
 	if(argc>=2)
     {
