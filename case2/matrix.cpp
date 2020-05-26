@@ -4,13 +4,17 @@
   Date		: 13-05-2020
 */
 #include<iostream>
+#include<cstdlib>
 #include<string.h>
 using namespace std;
+void inputmatrix();
+void displaymatrix();
 void rowreplace();
 void columnreplace();
 void diagonalreplace();
 //Declaring values globally
 int rowcount,columncount,rowposition,columnposition;
+char matrix[100][100];
 int main (int argc,char *argv[])
 {
 	if(argc>=2)
@@ -23,7 +27,13 @@ int main (int argc,char *argv[])
    	}
     else
     {
-    	cout<<" For help please press '-h' in Command line argument \n Press 4 to exit and go for help"<<endl;
+    cout<<" For help please press '-h' in Command line argument \n Press 4 to exit and go for help"<<endl;
+    cout<<"Enter the count of rows:"<<endl;
+    cin >> rowcount;
+    cout<<"Enter the count of columns"<<endl;
+    cin>>columncount;  
+	inputmatrix();
+	displaymatrix();	
 	while(1)
 	{
 		int option;
@@ -49,204 +59,176 @@ int main (int argc,char *argv[])
                         cout<<" Sorry! Invalid option!!! "<<endl;
                     	break;                    
             }
-    }
+	
+		char check;
+		cout<<"You Want To Check  Press (y/n) :";
+		cin>>check;
+		if(check=='n')
+			break;
+	}
 	}
   	return 0;
 }
-void rowreplace()
+void inputmatrix()
 {
-    cout<<"Enter the count of rows:"<<endl;
-    cin >> rowcount;
-    cout<<"Enter the count of columns"<<endl;
-    cin>>columncount;
-	char **matrix;
-	matrix= new char*[columncount];
 	cout<<"Pleas enter 0 or 1 only!!!"<<endl;
+	cout<<"Enter  "<<rowcount<<"*"<<columncount<<"Matrix"<<endl; 
     for(rowposition=0;rowposition<rowcount;rowposition++)
     {
-    	matrix[rowposition] = new char[columncount];
         for(columnposition=0;columnposition<columncount;columnposition++)
         {
             cout<<"Enter ("<<rowposition<<","<<columnposition<<") value: ";
             cin>>matrix[rowposition][columnposition];
         }
     }
-    cout << "Entered Matrix "<<endl;
+    cout<<endl;
+}
+void displaymatrix()
+{
+	cout<<"Entered Matrix:"<<endl;
 	for(rowposition=0;rowposition<rowcount;rowposition++)
     {
         for(columnposition=0;columnposition<columncount;columnposition++)
         {
-            cout<<matrix[rowposition][columnposition]<<"\t";
+            cout<<matrix[rowposition][columnposition]<<" ";
         }
         cout<<endl;
     }
-	int matrixarray[columncount];
-	int duplicaterowposition,duplicatecolumnposition,duplicate_rowposition,duplicate_columnposition;
-	int rrows=rowcount;
-    for (rowposition = 0; rowposition < rrows; rowposition++)
-    {
-        for (columnposition = 0; columnposition < columncount; columnposition++)
-	    {
-	        matrixarray[columnposition] = columnposition;
-	    }
-	    for (columnposition = 0; columnposition < columncount - 1; columnposition++)
-	    {
-	            duplicaterowposition = rowposition;
-	            duplicatecolumnposition= matrixarray[columnposition]; 
-	            duplicate_rowposition = rowposition;
-	            duplicate_columnposition= matrixarray[columnposition + 1];
-	        if (matrix[duplicaterowposition][duplicatecolumnposition] == matrix[duplicate_rowposition][duplicate_columnposition])
-	    	{
-		        matrixarray[columnposition + 1] = columnposition;
-		    }
-	    }
-
-        int positioninmatrix=0;
-        for (columnposition = 0; columnposition < columncount; columnposition++)
-	    {
-	        if (matrixarray[columnposition] == columnposition)
-	       {
-	                matrix[rowposition][positioninmatrix] = matrix[rowposition][columnposition];
-	            positioninmatrix++;
-	       }
-	    }
-        while (positioninmatrix!= columncount)
-	    {
-	            matrix[rowposition][positioninmatrix] = '*';
-	        positioninmatrix++;
-
-	    }
-    }
-    cout << "\nRow wise Output * Representation"<<endl;
+    cout<<endl;
+    cout<<endl;
+}
+void rowreplace()
+{
+char rowmatrix[10][10];
 	for(rowposition=0;rowposition<rowcount;rowposition++)
     {
         for(columnposition=0;columnposition<columncount;columnposition++)
         {
-            cout<<matrix[rowposition][columnposition]<<"\t";
-        }
-        cout<<endl;
+        	rowmatrix[rowposition][columnposition]=matrix[rowposition][columnposition];
+		}
+	}
+	for(rowposition=0;rowposition<rowcount;rowposition++)
+    {
+    	int value=1;
+    		while(value<=rowcount-1)
+			{
+			for(columnposition=0;columnposition<rowcount-1;columnposition++)
+    		{	
+    	 		int indices=columnposition+1;
+       			if(rowmatrix[rowposition][columnposition]=='*' || rowmatrix[rowposition][indices]=='*')
+       			{
+           				break;
+       			}
+        			if(rowmatrix[rowposition][columnposition]==rowmatrix[rowposition][indices])
+        			{
+				while(indices<=rowcount-1)
+            				{
+                					if(indices==rowcount-1)
+                					{
+                  						rowmatrix[rowposition][rowcount-2]=rowmatrix[rowposition][rowcount-1];
+                 						rowmatrix[rowposition][rowcount-1]='*';
+                  						break;
+                					}
+               					rowmatrix[rowposition][indices-1]=rowmatrix[rowposition][indices];
+               					indices=indices+1;
+            				}
+        			}
+    		}
+		 value=value+1;
+    	}
     }
+    cout<<"Row representation"<<endl;
+    for(rowposition=0;rowposition<rowcount;rowposition++)
+    {
+        for(columnposition=0;columnposition<columncount;columnposition++)
+        {
+        	cout<<rowmatrix[rowposition][columnposition]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+	cout<<endl;
 }
 void columnreplace()
 {
-    cout<<"Enter the count of rows:"<<endl;
-    cin >> rowcount;
-    cout<<"Enter the count of columns"<<endl;
-    cin>>columncount;
-	char **matrix;
-	matrix= new char*[columncount];
-	cout<<"Pleas enter 0 or 1 only!!!"<<endl;
+char columnmatrix[10][10];
+	for(rowposition=0;rowposition<rowcount;rowposition++)
+    {
+        for(columnposition=0;columnposition<columncount;columnposition++)
+        {
+        	columnmatrix[rowposition][columnposition]=matrix[columnposition][rowposition];
+		}
+	}
+	for(rowposition=0;rowposition<rowcount;rowposition++)
+    {
+    	int value=1;
+    		while(value<=rowcount-1)
+			{
+			for(columnposition=0;columnposition<rowcount-1;columnposition++)
+    		{	
+    	 		int indices=columnposition+1;
+       			if(columnmatrix[rowposition][columnposition]=='*' || columnmatrix[rowposition][indices]=='*')
+       			{
+           				break;
+       			}
+        			if(columnmatrix[rowposition][columnposition]==columnmatrix[rowposition][indices])
+        			{
+				while(indices<=rowcount-1)
+            				{
+                					if(indices==rowcount-1)
+                					{
+                  						columnmatrix[rowposition][rowcount-2]=columnmatrix[rowposition][rowcount-1];
+                 						columnmatrix[rowposition][rowcount-1]='*';
+                  						break;
+                					}
+               					columnmatrix[rowposition][indices-1]=columnmatrix[rowposition][indices];
+               					indices=indices+1;
+            				}
+        			}
+    		}
+		 value=value+1;
+    	}
+    }
+    char transposecolumn[10][10];
     for(rowposition=0;rowposition<rowcount;rowposition++)
     {
-    	matrix[rowposition] = new char[columncount];
         for(columnposition=0;columnposition<columncount;columnposition++)
         {
-            cout<<"Enter ("<<rowposition<<","<<columnposition<<") value: ";
-            cin>>matrix[rowposition][columnposition];
-        }
-    }
-    cout << "Entered Matrix "<<endl;
-	for(rowposition=0;rowposition<rowcount;rowposition++)
+        	transposecolumn[rowposition][columnposition]=columnmatrix[columnposition][rowposition];
+    	}
+	}
+    cout<<"Column representation"<<endl;
+    for(rowposition=0;rowposition<rowcount;rowposition++)
     {
         for(columnposition=0;columnposition<columncount;columnposition++)
         {
-            cout<<matrix[rowposition][columnposition]<<"\t";
-        }
-        cout<<endl;
-    }
-
-	int matrixarray[columncount];
-	int duplicaterowposition,duplicatecolumnposition,duplicate_rowposition,duplicate_columnposition;
-    int crows=rowcount;
-    for (rowposition = 0; rowposition < crows; rowposition++)
-    {
-        for (columnposition = 0; columnposition < columncount; columnposition++)
-	    {
-	        matrixarray[columnposition] = columnposition;
-	    }
-	    for (columnposition = 0; columnposition < columncount - 1; columnposition++)
-	    {
-
-	            duplicatecolumnposition = rowposition;
-	            duplicaterowposition = matrixarray[columnposition];
-	            duplicate_columnposition = rowposition;
-	            duplicate_rowposition = matrixarray[columnposition + 1];
-
-	        if (matrix[duplicaterowposition][duplicatecolumnposition] == matrix[duplicate_rowposition][duplicate_columnposition])
-	    	{
-		        matrixarray[columnposition + 1] = columnposition;
-		    }
-	    }
-
-        int positioninmatrix=0;
-        for (columnposition = 0; columnposition < columncount; columnposition++)
-	    {
-	        if (matrixarray[columnposition] == columnposition)
-	       {
-	                matrix[positioninmatrix][rowposition] = matrix[columnposition][rowposition];
-	            positioninmatrix++;
-	       }
-	    }
-        while (positioninmatrix!= columncount)
-	    {
-	        matrix[positioninmatrix][rowposition] = '*';
-	        positioninmatrix++;
-	    }
-    }
-    cout << "\nColumn wise Output * Representation"<<endl;
-	for(rowposition=0;rowposition<rowcount;rowposition++)
-    {
-        for(columnposition=0;columnposition<columncount;columnposition++)
-        {
-            cout<<matrix[rowposition][columnposition]<<"\t";
-        }
-        cout<<endl;
-    }
+        	cout<<transposecolumn[rowposition][columnposition]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+	cout<<endl;	
 }
 void diagonalreplace()
 {
-	char diagonalmatrix[50][50];
-    cout<<"Enter the count of rows:"<<endl;
-    cin >> rowcount;
-    cout<<"Enter the count of columns"<<endl;
-    cin>>columncount;
-	cout<<"Pleas enter 0 or 1 only!!!"<<endl;
-    for(rowposition=0;rowposition<rowcount;rowposition++)
-    {
-        for(columnposition=0;columnposition<columncount;columnposition++)
-        {
-            cout<<"Enter ("<<rowposition<<","<<columnposition<<") value: ";
-            cin>>diagonalmatrix[rowposition][columnposition];
-        }
-    }
-    cout << "Entered Matrix "<<endl;
-	for(rowposition=0;rowposition<rowcount;rowposition++)
-    {
-        for(columnposition=0;columnposition<columncount;columnposition++)
-        {
-            cout<<diagonalmatrix[rowposition][columnposition]<<"\t";
-        }
-        cout<<endl;
-    }
-	char temporarymatrix[50][50];
-	
+	char temporarymatrix[100][100];
 	for(rowposition=0;rowposition<rowcount;rowposition++)
 	{
     		for(columnposition=0;columnposition<columncount;columnposition++)
     		{
-       			temporarymatrix[rowposition][columnposition]=diagonalmatrix[rowposition][columnposition];
+       			temporarymatrix[rowposition][columnposition]=matrix[rowposition][columnposition];
     		}
 	}
-	char digonal1[50];
-	char digonal2[50];
+	char digonal1[100];
+	char digonal2[100];
 	for(rowposition=0;rowposition<rowcount;rowposition++)
 	{
-		digonal1[rowposition]=diagonalmatrix[rowposition][rowposition];
+		digonal1[rowposition]=matrix[rowposition][rowposition];
 	}
 	int indicesvalue=0;
 	for(columnposition=rowcount-1;columnposition>=0;columnposition--)
 	{
-		digonal1[indicesvalue]=diagonalmatrix[indicesvalue][columnposition];
+		digonal1[indicesvalue]=matrix[indicesvalue][columnposition];
 		indicesvalue=indicesvalue+1;
 	}
 	cout<<endl;
@@ -304,7 +286,7 @@ void diagonalreplace()
         			}
     		}
        		value=value+1;
-    	}
+    }
 	for(rowposition=0;rowposition<rowcount;rowposition++)
 	{
 		temporarymatrix[rowposition][rowposition]=digonal1[rowposition];
@@ -315,7 +297,7 @@ void diagonalreplace()
 		temporarymatrix[indicesvalue][columnposition]=digonal2[indicesvalue];
 		indicesvalue=indicesvalue+1;
 	}
-	cout<<"\nDiagonalMatrix "<<endl;
+	cout<<"Diagonal Matrix "<<endl;
 	for(rowposition=0;rowposition<rowcount;rowposition++)
 	{
     		for(columnposition=0;columnposition<columncount;columnposition++)
