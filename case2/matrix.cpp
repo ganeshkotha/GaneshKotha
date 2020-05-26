@@ -59,12 +59,6 @@ int main (int argc,char *argv[])
                         cout<<" Sorry! Invalid option!!! "<<endl;
                     	break;                    
             }
-	
-		char check;
-		cout<<"You Want To Check  Press (y/n) :";
-		cin>>check;
-		if(check=='n')
-			break;
 	}
 	}
   	return 0;
