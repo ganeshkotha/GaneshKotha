@@ -11,20 +11,24 @@
 #include<bits/stdc++.h> 
 #include<string.h>
 using namespace std;
+	//creating vector
 	vector< pair <string,string> > usersdata;
 	vector< pair <string,string> > frienddata;
+	//creating iterator
 	vector<pair<string,string> >::iterator itr1;
 	/*	Function Name :adduser
  	 	Parameters    :no parameters
   		Usage         :To add users into Data*/
 	void adduser()
 	{
+		//Memory allocation Dynamically
 		string *NAME = new string();
 		string *MAILID = new string();
 		cout<<"Welcome to the FRIEND page"<<endl;
 		cout<<"Enter name "<<endl;
 		cin.ignore();
 		getline(cin,*NAME);
+		//Checking if user name is already exist or not
 		for (itr1 =  usersdata.begin(); itr1 !=  usersdata.end(); itr1++)
 	 	{ 
 			if(itr1->first==*NAME || itr1->second==*NAME )
@@ -37,6 +41,7 @@ using namespace std;
 		{
 			cout<<"Enter mail id"<<endl;
 			cin>>*MAILID;
+			//Data is saving into usersdata  (vector)
 			usersdata.push_back(make_pair(*NAME,*MAILID));
 			cout<<"Your account is created successfully"<<endl;	
 		}
@@ -44,6 +49,7 @@ using namespace std;
 		{
 			cout<<"This user name already exists user other name"<<endl;
 		}
+		//Deallocating memory dynamically
 		delete NAME;
 		delete MAILID;
 	}
@@ -53,6 +59,7 @@ using namespace std;
 	void displayusers()
 	{
 		cout<<"In this Friend Page Users list "<<endl;
+		//for loop to iterate usersdata (vector) from starting to end
 		for (itr1 =  usersdata.begin(); itr1 !=  usersdata.end(); itr1++)
 	 	{ 
     	cout<<"Name   : "<< itr1->first<<endl; 
@@ -64,11 +71,13 @@ using namespace std;
   		Usage         :To edit users in Data*/
 	void edituser()
 	{
+		//Memory allocation Dynamically
 		string *newmailid = new string();
 		string *search = new string();
 		cout<<"Enter name to edit details "<<endl;
 		cin.ignore();
 		getline(cin,*search);
+		//for loop is used to Search the name in the usersdata (vector) 
 		for (itr1 =  usersdata.begin(); itr1 !=  usersdata.end(); itr1++)
 	 	{ 
 			if(itr1->first==*search || itr1->second==*search )
@@ -84,6 +93,7 @@ using namespace std;
 			cin>>*newmailid;
 			usersdata.push_back(make_pair(*search,*newmailid));
 			cout<<"Your Data Updated succesfully"<<endl;
+			//Deallocating memory dynamically
 			delete newmailid;
 			delete search;
 		}	 		 
@@ -95,7 +105,8 @@ using namespace std;
   		Usage         :To remove users in Data*/	
    void removeuser()
 	{
-	    string *search = new string();
+	    //Memory allocation Dynamically
+		string *search = new string();
 		bool b=false;
 		cout<<"Enter name to Remove account: "<<endl;
 		cin.ignore();
@@ -114,6 +125,7 @@ using namespace std;
      	{
      		cout<<"Entered name is not present in users data"<<endl;
      	}
+     	//Deallocating memory dynamically
      	delete search;
 	}
 		/*	Function Name :searchuser
@@ -121,6 +133,7 @@ using namespace std;
   		Usage         :To search users in Data*/		
 	void searchuser()
 	{
+		//Memory allocation Dynamically
 		string *search = new string();
 		bool b=false;
 		cout<<"Enter name to Search account: "<<endl;
@@ -140,6 +153,7 @@ using namespace std;
      	}
      	else
      		cout<<"Entered details has account"<<endl;
+			//Deallocating memory dynamically
 			delete search;
 	}
 		/*	Function Name :addnewfriend
@@ -147,6 +161,7 @@ using namespace std;
   		Usage         :To add friend for the user*/	
 	void addnewfriend()
 	{
+		//Memory allocation Dynamically
 		string *newname = new string();
 		string *newmailid = new string();
 		string *search = new string();	
@@ -192,6 +207,7 @@ using namespace std;
     		cout<<"Name: "<< itr1->first<<endl; 
     		cout<< "Mail id: " << itr1->second << endl; 
      	}
+     	//Deallocating memory dynamically
 		delete newname;
 		delete newmailid;
 		delete search;
