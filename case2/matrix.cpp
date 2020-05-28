@@ -222,7 +222,7 @@ void diagonalreplace()
 	int indicesvalue=0;
 	for(columnposition=rowcount-1;columnposition>=0;columnposition--)
 	{
-		digonal1[indicesvalue]=matrix[indicesvalue][columnposition];
+		digonal2[indicesvalue]=matrix[indicesvalue][columnposition];
 		indicesvalue=indicesvalue+1;
 	}
 	cout<<endl;
